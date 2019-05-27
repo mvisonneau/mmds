@@ -37,7 +37,7 @@ install: ## Build and install locally the binary (dev purpose)
 .PHONY: build
 build: setup ## Build the binary
 	mkdir -p dist; rm -rf dist/*
-	CGO_ENABLED=0 gox -osarch "darwin/386 darwin/amd64 linux/386 linux/amd64 windows/386 windows/amd64" -ldflags "$(LDFLAGS)" -output dist/$(NAME)_{{.OS}}_{{.Arch}}
+	CGO_ENABLED=0 gox -osarch "darwin/386 darwin/amd64 linux/386 linux/amd64 linux/arm64 windows/386 windows/amd64" -ldflags "$(LDFLAGS)" -output dist/$(NAME)_{{.OS}}_{{.Arch}}
 	strip dist/*_linux_amd64 dist/*_linux_386
 
 .PHONY: build-docker
