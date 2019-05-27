@@ -4,7 +4,7 @@
 
 FROM golang:1.12 as builder
 
-WORKDIR /go/src/github.com/mvisonneau/mmds
+WORKDIR /build
 
 COPY Makefile .
 RUN \
@@ -12,18 +12,17 @@ make setup
 
 COPY . .
 RUN \
-make deps ;\
 make build-docker
 
 ##
 # RELEASE CONTAINER
 ##
 
-FROM scratch
+FROM busybox:1.30-glibc
 
 WORKDIR /
 
-COPY --from=builder /go/src/github.com/mvisonneau/mmds/mmds /
+COPY --from=builder /build/mmds /usr/local/bin/
 
-ENTRYPOINT ["/mmds"]
+ENTRYPOINT ["/usr/local/bin/mmds"]
 CMD [""]

@@ -3,11 +3,11 @@ package main
 import (
 	"errors"
 	"fmt"
-  "regexp"
+	"regexp"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-  "github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
@@ -26,7 +26,7 @@ type Values struct {
 	InstanceID   string
 	PricingModel string
 	Region       string
-  AZ           string
+	AZ           string
 }
 
 var start time.Time
@@ -68,16 +68,16 @@ func run(ctx *cli.Context) error {
 	}
 
 	// Retrieve instance object from AWS
-  instance, err := c.getInstance(v.InstanceID)
-  if err != nil {
+	instance, err := c.getInstance(v.InstanceID)
+	if err != nil {
 		return exit(cli.NewExitError(analyzeEC2APIErrors(err), 1))
-  }
+	}
 
-  if instance.InstanceLifecycle != nil && *instance.InstanceLifecycle == "spot" {
-    v.PricingModel = "spot"
-  } else {
-    v.PricingModel = "on-demand"
-  }
+	if instance.InstanceLifecycle != nil && *instance.InstanceLifecycle == "spot" {
+		v.PricingModel = "spot"
+	} else {
+		v.PricingModel = "on-demand"
+	}
 
 	switch ctx.Command.FullName() {
 	case "pricing-model":
@@ -152,19 +152,19 @@ func (c *Clients) getInstance(instanceID string) (*ec2.Instance, error) {
 		},
 	})
 
-  if err != nil {
-    return nil, err
-  }
+	if err != nil {
+		return nil, err
+	}
 
-  if len(instances.Reservations) != 1 {
-    return nil, fmt.Errorf("Unexpected amount of reservations retrieved : '%d',  expected 1", len(instances.Reservations))
-  }
+	if len(instances.Reservations) != 1 {
+		return nil, fmt.Errorf("Unexpected amount of reservations retrieved : '%d',  expected 1", len(instances.Reservations))
+	}
 
-  if len(instances.Reservations[0].Instances) != 1 {
-    return nil, fmt.Errorf("Unexpected amount of reservations retrieved : '%d',  expected 1", len(instances.Reservations[0].Instances))
-  }
+	if len(instances.Reservations[0].Instances) != 1 {
+		return nil, fmt.Errorf("Unexpected amount of reservations retrieved : '%d',  expected 1", len(instances.Reservations[0].Instances))
+	}
 
-  return instances.Reservations[0].Instances[0], nil
+	return instances.Reservations[0].Instances[0], nil
 }
 
 func analyzeEC2APIErrors(err error) string {

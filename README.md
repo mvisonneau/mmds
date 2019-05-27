@@ -3,7 +3,7 @@
 [![GoDoc](https://godoc.org/github.com/mvisonneau/mmds?status.svg)](https://godoc.org/github.com/mvisonneau/mmds)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mvisonneau/mmds)](https://goreportcard.com/report/github.com/mvisonneau/mmds)
 [![Docker Pulls](https://img.shields.io/docker/pulls/mvisonneau/mmds.svg)](https://hub.docker.com/r/mvisonneau/mmds/)
-[![Build Status](https://travis-ci.org/mvisonneau/mmds.svg?branch=master)](https://travis-ci.org/mvisonneau/mmds)
+[![Build Status](https://cloud.drone.io/api/badges/mvisonneau/mmds/status.svg)](https://cloud.drone.io/mvisonneau/mmds)
 [![Coverage Status](https://coveralls.io/repos/github/mvisonneau/mmds/badge.svg?branch=master)](https://coveralls.io/github/mvisonneau/mmds?branch=master)
 
 `mmds` allows you to get some information which are currently missing from the [AWS meta-data service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html)
