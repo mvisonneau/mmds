@@ -5,5 +5,5 @@ go 1.12
 require (
 	github.com/aws/aws-sdk-go v1.25.43
 	github.com/sirupsen/logrus v1.4.2
-	github.com/urfave/cli v1.22.1
+	github.com/urfave/cli v1.22.2
 )
