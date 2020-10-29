@@ -2,27 +2,25 @@
 # BUILD CONTAINER
 ##
 
-FROM golang:1.12 as builder
+FROM goreleaser/goreleaser:v0.145.0 as builder
 
 WORKDIR /build
 
-COPY Makefile .
-RUN \
-make setup
-
 COPY . .
 RUN \
-make build-docker
+  apk add --no-cache make ca-certificates ;\
+  make build-linux-amd64
 
 ##
 # RELEASE CONTAINER
 ##
 
-FROM busybox:1.31-glibc
+FROM busybox:1.32.0-glibc
 
 WORKDIR /
 
-COPY --from=builder /build/mmds /usr/local/bin/
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /build/dist/mmds_linux_amd64/tfcw /usr/local/bin/
 
 ENTRYPOINT ["/usr/local/bin/mmds"]
 CMD [""]
