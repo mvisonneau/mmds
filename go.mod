@@ -11,7 +11,6 @@ require (
 	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/objx v0.1.1 // indirect
 	github.com/stretchr/testify v1.6.1
-	github.com/urfave/cli v1.22.4
 	github.com/urfave/cli/v2 v2.2.0
 	golang.org/x/net v0.0.0-20201029055024-942e2f445f3c // indirect
 	golang.org/x/sys v0.0.0-20201029080932-201ba4db2418 // indirect
