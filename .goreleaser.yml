@@ -1,0 +1,60 @@
+before:
+  hooks:
+    - go mod download
+
+builds:
+  - main: ./cmd/mmds
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - freebsd
+      - linux
+      - solaris
+      - windows
+    goarch:
+      - 386
+      - amd64
+      - arm64
+    flags:
+      - -trimpath
+
+archives:
+  - format_overrides:
+      - goos: windows
+        format: zip
+
+nfpms:
+  - maintainer: &author Maxime VISONNEAU <maxime.visonneau@gmail.com>
+    description: &description Missed (AWS) Meta-Data (service)
+    license: &license Apache 2.0
+    homepage: &homepage https://github.com/mvisonneau/mmds
+    vendor: *author
+    formats:
+      - deb
+      - rpm
+
+brews:
+  - description: *description
+    homepage: *homepage
+    folder: Formula
+    tap:
+      owner: mvisonneau
+      name: homebrew-tap
+
+scoop:
+  description: *description
+  homepage: *homepage
+  license: *license
+  bucket:
+    owner: mvisonneau
+    name: scoops
+
+checksum:
+  name_template: '{{ .ProjectName }}_{{ .Version }}_SHA256SUMS'
+  algorithm: sha256
+
+snapshot:
+  name_template: '{{ .Tag }}-{{ .ShortCommit }}'
+
+changelog:
+  skip: true
