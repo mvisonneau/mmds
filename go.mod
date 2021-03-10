@@ -8,7 +8,7 @@ require (
 	github.com/mvisonneau/go-helpers v0.0.0-20201013090751-e69b7251ab02
 	github.com/mvisonneau/vac v0.0.0-20201022192523-787c609e725f
 	github.com/openlyinc/pointy v1.1.2
-	github.com/sirupsen/logrus v1.7.0
+	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/objx v0.1.1 // indirect
 	github.com/stretchr/testify v1.6.1
 	github.com/urfave/cli/v2 v2.3.0
