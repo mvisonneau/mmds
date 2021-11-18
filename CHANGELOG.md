@@ -7,6 +7,12 @@ and this project adheres to  [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+### Changed
+
+- ci: migrated to github actions
+- go: upgraded to 1.17
+- deps: updated all of them to their latest versions
+
 ## [0.1.2] - 2020-10-29
 
 ### Added

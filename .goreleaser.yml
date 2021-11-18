@@ -11,15 +11,20 @@ builds:
       - linux
       - solaris
       - windows
+      - darwin
     goarch:
       - 386
       - amd64
       - arm64
     flags:
       - -trimpath
+    ignore:
+      - goos: darwin
+        goarch: 386
 
 archives:
-  - format_overrides:
+  - name_template: '{{ .ProjectName }}_{{ .Tag }}_{{ .Os }}_{{ .Arch }}'
+    format_overrides:
       - goos: windows
         format: zip
 
@@ -29,6 +34,7 @@ nfpms:
     license: &license Apache 2.0
     homepage: &homepage https://github.com/mvisonneau/mmds
     vendor: *author
+    file_name_template: '{{ .ProjectName }}_{{ .Tag }}_{{ .Os }}_{{ .Arch }}'
     formats:
       - deb
       - rpm
@@ -50,11 +56,20 @@ scoop:
     name: scoops
 
 checksum:
-  name_template: '{{ .ProjectName }}_{{ .Version }}_SHA256SUMS'
-  algorithm: sha256
+  name_template: '{{ .ProjectName }}_{{ .Tag }}_sha512sums.txt'
+  algorithm: sha512
 
-snapshot:
-  name_template: '{{ .Tag }}-{{ .ShortCommit }}'
+signs:
+  - artifacts: checksum
+    args:
+      [
+        '-u',
+        'C09CA9F71C5C988E65E3E5FCADEA38EDC46F25BE',
+        '--output',
+        '${signature}',
+        '--detach-sign',
+        '${artifact}',
+      ]
 
 changelog:
   skip: true

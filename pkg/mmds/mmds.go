@@ -141,7 +141,6 @@ func getInstance(c *ec2.EC2, instanceID *string) (*ec2.Instance, error) {
 			},
 		},
 	})
-
 	if err != nil {
 		return nil, err
 	}

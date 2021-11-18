@@ -1,19 +1,23 @@
 module github.com/mvisonneau/mmds
 
-go 1.15
+go 1.17
 
 require (
-	github.com/aws/aws-sdk-go v1.35.27
-	github.com/konsorten/go-windows-terminal-sequences v1.0.1 // indirect
-	github.com/mvisonneau/go-helpers v0.0.0-20201013090751-e69b7251ab02
-	github.com/mvisonneau/vac v0.0.0-20201022192523-787c609e725f
+	github.com/aws/aws-sdk-go v1.42.7
+	github.com/mvisonneau/go-helpers v0.0.1
 	github.com/openlyinc/pointy v1.1.2
-	github.com/sirupsen/logrus v1.7.0
-	github.com/stretchr/objx v0.1.1 // indirect
+	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.6.1
 	github.com/urfave/cli/v2 v2.3.0
-	golang.org/x/net v0.0.0-20201029055024-942e2f445f3c // indirect
-	golang.org/x/sys v0.0.0-20201029080932-201ba4db2418 // indirect
-	golang.org/x/text v0.3.4 // indirect
-	gotest.tools v2.2.0+incompatible
+)
+
+require (
+	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/russross/blackfriday/v2 v2.1.0 // indirect
+	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
+	golang.org/x/sys v0.0.0-20211117180635-dee7805ff2e1 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
