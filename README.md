@@ -1,10 +1,10 @@
 # mvisonneau/mmds - Missed (AWS) Meta-Data (service)
 
-[![GoDoc](https://godoc.org/github.com/mvisonneau/mmds?status.svg)](https://godoc.org/github.com/mvisonneau/mmds)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/mvisonneau/mmds)](https://pkg.go.dev/mod/github.com/mvisonneau/mmds)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mvisonneau/mmds)](https://goreportcard.com/report/github.com/mvisonneau/mmds)
-[![Docker Pulls](https://img.shields.io/docker/pulls/mvisonneau/mmds.svg)](https://hub.docker.com/r/mvisonneau/mmds/)
-[![Build Status](https://cloud.drone.io/api/badges/mvisonneau/mmds/status.svg)](https://cloud.drone.io/mvisonneau/mmds)
-[![Coverage Status](https://coveralls.io/repos/github/mvisonneau/mmds/badge.svg?branch=master)](https://coveralls.io/github/mvisonneau/mmds?branch=master)
+[![test](https://github.com/mvisonneau/mmds/actions/workflows/test.yml/badge.svg)](https://github.com/mvisonneau/mmds/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/mvisonneau/mmds/badge.svg?branch=main)](https://coveralls.io/github/mvisonneau/mmds?branch=main)
+[![release](https://github.com/mvisonneau/mmds/actions/workflows/release.yml/badge.svg)](https://github.com/mvisonneau/mmds/actions/workflows/release.yml)
 
 `mmds` allows you to get some information which are currently missing from the [AWS meta-data service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html)
 
@@ -43,19 +43,13 @@ Have a look onto the [latest release page](https://github.com/mvisonneau/mmds/re
 ### Go
 
 ```bash
-~$ go get -u github.com/mvisonneau/mmds
+~$ go install github.com/mvisonneau/mmds/cmd/mmds@latest
 ```
 
 ### Homebrew (linux only)
 
 ```bash
 ~$ brew install mvisonneau/tap/mmds
-```
-
-### Docker
-
-```bash
-~$ docker run -it --rm mvisonneau/mmds
 ```
 
 ### Scoop
@@ -75,27 +69,42 @@ For the following ones, you need to know which version you want to install, to f
 
 ```bash
 # Binary (eg: freebsd/amd64)
-~$ wget https://github.com/mvisonneau/strongbox/releases/download/${MMDS_VERSION}/strongbox_${MMDS_VERSION}_freebsd_amd64.tar.gz
-~$ tar zxvf strongbox_${MMDS_VERSION}_freebsd_amd64.tar.gz -C /usr/local/bin
+~$ wget https://github.com/mvisonneau/mmds/releases/download/${MMDS_VERSION}/mmds_${MMDS_VERSION}_freebsd_amd64.tar.gz
+~$ tar zxvf mmds_${MMDS_VERSION}_freebsd_amd64.tar.gz -C /usr/local/bin
 
 # DEB package (eg: linux/386)
-~$ wget https://github.com/mvisonneau/strongbox/releases/download/${MMDS_VERSION}/strongbox_${MMDS_VERSION}_linux_386.deb
-~$ dpkg -i strongbox_${MMDS_VERSION}_linux_386.deb
+~$ wget https://github.com/mvisonneau/mmds/releases/download/${MMDS_VERSION}/mmds_${MMDS_VERSION}_linux_386.deb
+~$ dpkg -i mmds_${MMDS_VERSION}_linux_386.deb
 
 # RPM package (eg: linux/arm64)
-~$ wget https://github.com/mvisonneau/strongbox/releases/download/${MMDS_VERSION}/strongbox_${MMDS_VERSION}_linux_arm64.rpm
-~$ rpm -ivh strongbox_${MMDS_VERSION}_linux_arm64.rpm
+~$ wget https://github.com/mvisonneau/mmds/releases/download/${MMDS_VERSION}/mmds_${MMDS_VERSION}_linux_arm64.rpm
+~$ rpm -ivh mmds_${MMDS_VERSION}_linux_arm64.rpm
 ```
 
 ## Develop / Test
 
-If you use docker, you can easily get started using :
-
 ```bash
-~$ make dev-env
-# You should then be able to use go commands to work onto the project, eg:
-~docker$ make fmt
-~docker$ mmds
+~$ make
+all                            Test, builds and ship package for all supported platforms
+build                          Build the binaries using local GOOS
+clean                          Remove binary if it exists
+coverage-html                  Generates coverage report and displays it in the browser
+coverage                       Generates coverage report
+fmt                            Format source code
+gofumpt                        Test code syntax with gofumpt
+gosec                          Test code for security vulnerabilities
+help                           Displays this help
+ineffassign                    Test code syntax for ineffassign
+install                        Build and install locally the binary (dev purpose)
+is-git-dirty                   Tests if git is in a dirty state
+lint                           Run all lint related tests against the codebase
+misspell                       Test code with misspell
+prerelease                     Build & prerelease the binaries (edge)
+release                        Build & release the binaries (stable)
+revive                         Test code syntax with revive
+setup                          Install required libraries/tools for build tasks
+test                           Run the tests against the codebase
+vet                            Test code syntax with go vet
 ```
 
 ## Contribute
