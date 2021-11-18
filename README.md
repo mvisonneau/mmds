@@ -19,7 +19,7 @@ spot
 ## Usage
 
 ```bash
-~$ mmds
+~$ mmds --help
 NAME:
    mmds - Missed (AWS) Meta-Data (service)
 
@@ -109,4 +109,4 @@ vet                            Test code syntax with go vet
 
 ## Contribute
 
-Contributions are more than welcome! Feel free to submit a [PR](https://github.com/mvisonneau/mmds/pulls).
+Contributions are very welcome! Feel free to submit a [PR](https://github.com/mvisonneau/mmds/pulls).
