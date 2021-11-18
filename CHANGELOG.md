@@ -7,6 +7,8 @@ and this project adheres to  [0ver](https://0ver.org).
 
 ## [Unreleased]
 
+## [v0.1.3] - 2021-11-18
+
 ### Changed
 
 - ci: migrated to github actions
@@ -49,7 +51,8 @@ and this project adheres to  [0ver](https://0ver.org).
 - LICENSE
 - README
 
-[Unreleased]: https://github.com/mvisonneau/mmds/compare/0.1.2...HEAD
+[Unreleased]: https://github.com/mvisonneau/mmds/compare/v0.1.3...HEAD
+[v0.1.3]: https://github.com/mvisonneau/mmds/tree/v0.1.3
 [0.1.2]: https://github.com/mvisonneau/mmds/tree/0.1.2
 [0.1.1]: https://github.com/mvisonneau/mmds/tree/0.1.1
 [0.1.0]: https://github.com/mvisonneau/mmds/tree/0.1.0
