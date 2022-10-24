@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/aws/aws-sdk-go v1.42.51
 	github.com/mvisonneau/go-helpers v0.0.1
-	github.com/openlyinc/pointy v1.1.2
+	github.com/openlyinc/pointy v1.2.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.6.1
 	github.com/urfave/cli/v2 v2.3.0
