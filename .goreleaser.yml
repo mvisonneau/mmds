@@ -1,3 +1,6 @@
+---
+version: 2
+
 before:
   hooks:
     - go mod download
@@ -42,18 +45,18 @@ nfpms:
 brews:
   - description: *description
     homepage: *homepage
-    folder: Formula
-    tap:
+    directory: Formula
+    repository:
       owner: mvisonneau
       name: homebrew-tap
 
-scoop:
-  description: *description
-  homepage: *homepage
-  license: *license
-  bucket:
-    owner: mvisonneau
-    name: scoops
+scoops:
+  - description: *description
+    homepage: *homepage
+    license: *license
+    repository:
+      owner: mvisonneau
+      name: scoops
 
 checksum:
   name_template: '{{ .ProjectName }}_{{ .Tag }}_sha512sums.txt'
@@ -72,4 +75,4 @@ signs:
       ]
 
 changelog:
-  skip: true
+  disable: true

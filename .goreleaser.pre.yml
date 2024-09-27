@@ -1,3 +1,6 @@
+---
+version: 2
+
 before:
   hooks:
     - go mod download
@@ -48,4 +51,4 @@ checksum:
   algorithm: sha512
 
 changelog:
-  skip: true
+  disable: true
