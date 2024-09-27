@@ -36,7 +36,7 @@ jobs:
         run: make lint
 
       - name: Test
-        run: make coverage
+        run: make test
 
       - name: Publish coverage to coveralls.io
         uses: shogo82148/actions-goveralls@785c9d68212c91196d3994652647f8721918ba11 # v1
