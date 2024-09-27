@@ -1,49 +1,53 @@
 package mmds
 
 import (
+	"context"
 	"fmt"
+	"io"
 	"regexp"
+	"strings"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/ec2metadata"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ec2"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/feature/ec2/imds"
+	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	log "github.com/sirupsen/logrus"
 )
 
 // Instance ..
 type Instance struct {
-	*ec2.Instance
+	*ec2Types.Instance
 }
 
-// New MMDS client
+// New MMDS client.
 func New() (i Instance, err error) {
-	// Get an MDS client
-	var mdsClient *ec2metadata.EC2Metadata
+	// Get an MDS client.
+	var mdsClient *imds.Client
 	if mdsClient, err = newAWSMDSClient(); err != nil {
 		return
 	}
 
-	// Find instance region
+	// Find instance region.
 	var region string
 	if region, err = getInstanceRegion(mdsClient); err != nil {
 		return
 	}
 
-	// Find instance ID
+	// Find instance ID.
 	var instanceID *string
 	if instanceID, err = getInstanceID(mdsClient); err != nil {
 		return
 	}
 
-	// Get an EC2 client
-	var ec2Client *ec2.EC2
+	// Get an EC2 client.
+	var ec2Client *ec2.Client
 	if ec2Client, err = newAWSEC2Client(region); err != nil {
 		return
 	}
 
-	// Find instance details
-	var instance *ec2.Instance
+	// Find instance details.
+	var instance *ec2Types.Instance
 	if instance, err = getInstance(ec2Client, instanceID); err != nil {
 		return
 	}
@@ -56,27 +60,35 @@ func New() (i Instance, err error) {
 	return
 }
 
-// GetPricingModel of the instance
+// GetPricingModel of the instance.
 func (i *Instance) GetPricingModel() string {
-	if i.InstanceLifecycle != nil && *i.InstanceLifecycle == "spot" {
+	if i.Instance.InstanceLifecycle == ec2Types.InstanceLifecycleTypeSpot {
 		return "spot"
 	}
 
 	return "on-demand"
 }
 
-func newAWSMDSClient() (c *ec2metadata.EC2Metadata, err error) {
+func newAWSMDSClient() (c *imds.Client, err error) {
 	log.Debug("Starting AWS MDS API session")
-	c = ec2metadata.New(session.New())
+	cfg, err := config.LoadDefaultConfig(context.TODO())
+	if err != nil {
+		return nil, fmt.Errorf("unable to load SDK config, %v", err)
+	}
 
-	if !c.Available() {
+	c = imds.NewFromConfig(cfg)
+
+	_, err = c.GetMetadata(context.TODO(), &imds.GetMetadataInput{
+		Path: "instance-id",
+	})
+	if err != nil {
 		err = fmt.Errorf("Unable to access the metadata service, are you running this binary from an AWS EC2 instance?")
 	}
 
 	return
 }
 
-func newAWSEC2Client(region string) (c *ec2.EC2, err error) {
+func newAWSEC2Client(region string) (c *ec2.Client, err error) {
 	re := regexp.MustCompile("[a-z]{2}-[a-z]+-\\d")
 	if !re.MatchString(region) {
 		err = fmt.Errorf("Cannot start AWS EC2 client session with invalid region '%s'", region)
@@ -84,15 +96,30 @@ func newAWSEC2Client(region string) (c *ec2.EC2, err error) {
 	}
 
 	log.Debug("Starting AWS EC2 Client session")
-	c = ec2.New(session.New(&aws.Config{
-		Region: aws.String(region),
-	}))
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion(region))
+	if err != nil {
+		return nil, err
+	}
+
+	c = ec2.NewFromConfig(cfg)
 	return
 }
 
-func getInstanceAZ(c *ec2metadata.EC2Metadata) (az string, err error) {
+func getInstanceAZ(c *imds.Client) (az string, err error) {
 	log.Debug("Fetching current AZ from MDS API")
-	az, err = c.GetMetadata("placement/availability-zone")
+	output, err := c.GetMetadata(context.TODO(), &imds.GetMetadataInput{
+		Path: "placement/availability-zone",
+	})
+	if err != nil {
+		return "", err
+	}
+
+	buf := new(strings.Builder)
+	if _, err = io.Copy(buf, output.Content); err != nil {
+		return "", err
+	}
+
+	az = buf.String()
 	log.Debugf("Found AZ: '%s'", az)
 	return
 }
@@ -109,7 +136,7 @@ func computeRegionFromAZ(az string) (region string, err error) {
 	return
 }
 
-func getInstanceRegion(c *ec2metadata.EC2Metadata) (region string, err error) {
+func getInstanceRegion(c *imds.Client) (region string, err error) {
 	// Fetch current AZ
 	var az string
 	az, err = getInstanceAZ(c)
@@ -122,22 +149,32 @@ func getInstanceRegion(c *ec2metadata.EC2Metadata) (region string, err error) {
 	return
 }
 
-func getInstanceID(c *ec2metadata.EC2Metadata) (*string, error) {
+func getInstanceID(c *imds.Client) (*string, error) {
 	log.Debug("Fetching current instance-id from MDS API")
-	instanceID, err := c.GetMetadata("instance-id")
+	output, err := c.GetMetadata(context.TODO(), &imds.GetMetadataInput{
+		Path: "instance-id",
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	buf := new(strings.Builder)
+	if _, err = io.Copy(buf, output.Content); err != nil {
+		return nil, err
+	}
+
+	instanceID := buf.String()
 	log.Debugf("Found instance-id : '%s'", instanceID)
-	return &instanceID, err
+	return &instanceID, nil
 }
 
-func getInstance(c *ec2.EC2, instanceID *string) (*ec2.Instance, error) {
+func getInstance(c *ec2.Client, instanceID *string) (*ec2Types.Instance, error) {
 	log.Debugf("Fetching instance object from instanceID '%s' from EC2 API", *instanceID)
-	instances, err := c.DescribeInstances(&ec2.DescribeInstancesInput{
-		Filters: []*ec2.Filter{
+	instances, err := c.DescribeInstances(context.TODO(), &ec2.DescribeInstancesInput{
+		Filters: []ec2Types.Filter{
 			{
-				Name: aws.String("instance-id"),
-				Values: []*string{
-					instanceID,
-				},
+				Name:   aws.String("instance-id"),
+				Values: []string{*instanceID},
 			},
 		},
 	})
@@ -146,12 +183,12 @@ func getInstance(c *ec2.EC2, instanceID *string) (*ec2.Instance, error) {
 	}
 
 	if len(instances.Reservations) != 1 {
-		return nil, fmt.Errorf("Unexpected amount of reservations retrieved : '%d',  expected 1", len(instances.Reservations))
+		return nil, fmt.Errorf("Unexpected amount of reservations retrieved : '%d', expected 1", len(instances.Reservations))
 	}
 
 	if len(instances.Reservations[0].Instances) != 1 {
-		return nil, fmt.Errorf("Unexpected amount of reservations retrieved : '%d',  expected 1", len(instances.Reservations[0].Instances))
+		return nil, fmt.Errorf("Unexpected amount of instances retrieved : '%d', expected 1", len(instances.Reservations[0].Instances))
 	}
 
-	return instances.Reservations[0].Instances[0], nil
+	return &instances.Reservations[0].Instances[0], nil
 }

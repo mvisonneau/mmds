@@ -3,8 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/mvisonneau/mmds/pkg/mmds"
 	"github.com/urfave/cli/v2"
+
+	"github.com/mvisonneau/mmds/pkg/mmds"
 )
 
 // PricingModel ..

@@ -3,10 +3,11 @@ package cmd
 import (
 	"time"
 
-	"github.com/mvisonneau/go-helpers/logger"
-	"github.com/mvisonneau/mmds/pkg/mmds"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	"github.com/mvisonneau/go-helpers/logger"
+	"github.com/mvisonneau/mmds/pkg/mmds"
 )
 
 var start time.Time
