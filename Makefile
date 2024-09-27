@@ -33,7 +33,7 @@ build: ## Build the binaries using local GOOS
 .PHONY: release
 release: ## Build & release the binaries (stable)
 	git tag -d edge
-	go run github.com/goreleaser/goreleaser@v1.25.1 release --clean
+	go run github.com/goreleaser/goreleaser@v2.3.2 release --clean
 
 .PHONY: prerelease
 prerelease: ## Build & prerelease the binaries (edge)
