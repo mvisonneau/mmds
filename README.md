@@ -88,23 +88,14 @@ For the following ones, you need to know which version you want to install, to f
 all                            Test, builds and ship package for all supported platforms
 build                          Build the binaries using local GOOS
 clean                          Remove binary if it exists
-coverage-html                  Generates coverage report and displays it in the browser
-coverage                       Generates coverage report
+coverage                       Prints coverage report
 fmt                            Format source code
-gofumpt                        Test code syntax with gofumpt
-gosec                          Test code for security vulnerabilities
 help                           Displays this help
-ineffassign                    Test code syntax for ineffassign
 install                        Build and install locally the binary (dev purpose)
-is-git-dirty                   Tests if git is in a dirty state
-lint                           Run all lint related tests against the codebase
-misspell                       Test code with misspell
+lint                           Run all lint related tests upon the codebase
 prerelease                     Build & prerelease the binaries (edge)
 release                        Build & release the binaries (stable)
-revive                         Test code syntax with revive
-setup                          Install required libraries/tools for build tasks
 test                           Run the tests against the codebase
-vet                            Test code syntax with go vet
 ```
 
 ## Contribute
