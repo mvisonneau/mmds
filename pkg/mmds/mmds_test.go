@@ -3,20 +3,19 @@ package mmds
 import (
 	"testing"
 
-	"github.com/aws/aws-sdk-go/service/ec2"
-	"github.com/openlyinc/pointy"
+	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetPricingModel(t *testing.T) {
 	i := Instance{
-		&ec2.Instance{
-			InstanceLifecycle: pointy.String("boooo"),
+		&ec2Types.Instance{
+			InstanceLifecycle: ec2Types.InstanceLifecycleTypeCapacityBlock,
 		},
 	}
 
 	assert.Equal(t, "on-demand", i.GetPricingModel())
 
-	i.InstanceLifecycle = pointy.String("spot")
+	i.InstanceLifecycle = ec2Types.InstanceLifecycleTypeSpot
 	assert.Equal(t, "spot", i.GetPricingModel())
 }
