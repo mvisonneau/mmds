@@ -10,7 +10,7 @@ fmt: ## Format source code
 
 .PHONY: lint
 lint: ## Run all lint related tests upon the codebase
-	go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.61.0 run -v --fast
+	go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.62.2 run -v --fast
 
 .PHONY: test
 test: ## Run the tests against the codebase
@@ -33,7 +33,7 @@ build: ## Build the binaries using local GOOS
 .PHONY: release
 release: ## Build & release the binaries (stable)
 	git tag -d edge
-	go run github.com/goreleaser/goreleaser/v2@v2.4.4 release --clean
+	go run github.com/goreleaser/goreleaser/v2@v2.5.0 release --clean
 
 .PHONY: prerelease
 prerelease: ## Build & prerelease the binaries (edge)
