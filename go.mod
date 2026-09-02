@@ -9,8 +9,9 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.187.1
 	github.com/mvisonneau/go-helpers v0.0.1
 	github.com/sirupsen/logrus v1.9.3
-	github.com/stretchr/testify v1.9.0
-	github.com/urfave/cli/v2 v2.27.5
+	github.com/stretchr/testify v1.11.1
+	github.com/urfave/cli/v2 v2.27.7
+	github.com/urfave/cli/v3 v3.11.0
 )
 
 require (
@@ -24,7 +25,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.28.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.32.4 // indirect
 	github.com/aws/smithy-go v1.22.0 // indirect
-	github.com/cpuguy83/go-md2man/v2 v2.0.5 // indirect
+	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
